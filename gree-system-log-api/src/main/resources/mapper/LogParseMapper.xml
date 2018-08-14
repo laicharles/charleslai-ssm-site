@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gree.greesystemlogapi.dao.ILogParse" >
+
+    <resultMap id="logParseResultMap" type="com.gree.greesystemlogapi.entity.LogParseEntity">
+        <id property="id" column="id"/>
+        <result property="logLevel" column="logLevel"/>
+        <result property="svrType" column="svrType"/>
+        <result property="svrIP" column="svrIP"/>
+        <result property="svrTime" column="svrTime"/>
+
+    </resultMap>
+    <!--resultMap 和resultType 不能同时存在-->
+
+    <select id="selectLogParseList"  resultMap="logParseResultMap" parameterType="com.gree.greesystemlogapi.model.LogParseModel">
+        SELECT * FROM LogParse
+        <where>
+
+         <if test="logLevel!=null and logLevel!=''">
+             and  logLevel = #{logLevel}
+        </if>
+        <if test="svrType!=null and svrType!=''">
+         and    svrType = #{svrType}
+        </if>
+
+        <if test="svrIP!=null and svrIP!=''">
+            and    svrIP = #{svrIP}
+        </if>
+
+        <if test="firstSvrTime!=null and firstSvrTime!='' and endSvrTime!=null and endSvrTime!=''">
+
+                and svrTime  between  #{firstSvrTime}  and  #{endSvrTime}
+
+
+        </if>
+
+
+       </where>
+
+
+    </select>
+</mapper>
